@@ -2,7 +2,7 @@
   <h1 align="center">Storyblok Custom App</h1>
 </p>
 
-![App preview image](./screenshoot.png)
+![App preview image](./screenshot.png)
 
 > Kanban app to change the Workflow Stage from a story
 
