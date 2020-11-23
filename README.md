@@ -4,7 +4,9 @@
 
 ![App preview image](./screenshot.png)
 
-> Kanban app to change the Workflow Stage from a story
+> Example App to start with in Storyblok.
+
+Based on the [Workflow App](https://github.com/storyblok/storyblok-workflow-app)
 
 ## Development
 
