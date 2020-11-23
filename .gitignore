@@ -87,3 +87,7 @@ sw.*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.vercel
+.nuxt
+dist/

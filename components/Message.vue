@@ -20,17 +20,17 @@ export default {
   props: {
     message: {
       type: String,
-      default: ''
+      default: '',
     },
     type: {
       type: String,
-      default: 'info'
-    }
+      default: 'info',
+    },
   },
   computed: {
-    isDanger () {
+    isDanger() {
       return this.type === 'danger'
-    }
-  }
+    },
+  },
 }
 </script>

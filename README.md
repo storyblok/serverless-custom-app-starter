@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Storyblok Stage Kanban App</h1>
+  <h1 align="center">Storyblok Custom App</h1>
 </p>
 
 ![App preview image](./screenshoot.png)

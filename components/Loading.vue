@@ -13,23 +13,24 @@ export default {
   props: {
     message: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
 
-<style>
+<style lang="postcss">
 /* effect by https://codepen.io/wabeshew/full/XdbBdM */
 .bounceball {
   @apply relative inline-block w-6 h-12;
 }
 
-.bounceball:before {
+.bounceball::before {
   content: '';
   border-radius: 50%;
   transform-origin: 50%;
   animation: bounce 500ms alternate infinite ease;
+
   @apply absolute block top-0 w-6 h-6 bg-gray-500;
 }
 

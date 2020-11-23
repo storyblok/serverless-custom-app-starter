@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'active' : activeToast }" class="toast">
+  <div :class="{ active: activeToast }" class="toast">
     <Message v-bind="{ type, message }" />
   </div>
 </template>
@@ -13,37 +13,37 @@ export default {
   props: {
     message: {
       type: String,
-      default: ''
+      default: '',
     },
     type: {
       type: String,
-      default: 'info'
+      default: 'info',
     },
     time: {
       type: Number,
-      default: 5000
-    }
+      default: 5000,
+    },
   },
   data: () => ({
-    activeToast: false
+    activeToast: false,
   }),
-  beforeDestroy () {
+  beforeDestroy() {
     clearTimeout(this.internalTimeout)
   },
   methods: {
-    show () {
+    show() {
       this.activeToast = true
 
       this.triggerTimeout()
     },
-    triggerTimeout () {
+    triggerTimeout() {
       this.internalTimeout = setTimeout(() => {
         this.activeToast = false
 
         clearTimeout(this.internalTimeout)
       }, this.time)
-    }
-  }
+    },
+  },
 }
 </script>
 
