@@ -14,7 +14,7 @@
         </p>
       </div>
 
-      <div class="flex-1 px-6 mb-6 flex">
+      <div class="px-6 mb-6">
         <div
           v-if="!hasData"
           class="flex justify-center items-center flex-col w-full"
@@ -31,6 +31,13 @@
 
         <template v-else>
           <h2>We found {{ stories.length }} stories in this space.</h2>
+          <br />
+          <a
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 inline-block"
+            :href="`/refresh?space_id=${spaceId}`"
+          >
+            Refresh Access Token
+          </a>
         </template>
       </div>
     </template>
@@ -59,14 +66,19 @@ export default {
     loading: true,
     hasUserError: false,
     hasStoriesError: false,
+    hasCookieError: false,
     stories: [],
+    deployments: [],
     currentUser: {},
     errorMessage: '',
     loadingMessage: 'Loading...',
   }),
   computed: {
     hasData() {
-      return this.stories.length > 0 && !this.hasError && !this.loading
+      return this.stories && this.stories.length > 0 && !this.loading
+    },
+    allowsCookies() {
+      return navigator.cookieEnabled
     },
     hasError() {
       return this.hasUserError || this.hasStoriesError || this.hasWorkflowError
@@ -91,7 +103,13 @@ export default {
     } else {
       this.loadSpaceIdFromUrl()
 
-      this.$nextTick(this.loadData)
+      if (!this.allowsCookies) {
+        this.errorMessage = 'Cookies need to be enabled for this app to work'
+        this.loading = false
+        this.$refs.toast.show()
+      } else {
+        this.$nextTick(this.loadData)
+      }
     }
   },
   methods: {
@@ -105,44 +123,29 @@ export default {
       try {
         // load stories data
         this.loadingMessage = 'Loading stories...'
-        this.stories = await this.loadStories()
+        await this.loadStories()
 
         // load user data
         this.loadingMessage = 'Loading user information...'
         await this.getUserInfo()
+
         this.loading = false
       } catch (e) {
         console.error(e.message); // eslint-disable-line
-        this.errorMessage = 'An error ocurred when load data'
+        this.errorMessage = 'An error ocurred when loading the data'
         this.loading = false
         this.$refs.toast.show()
       }
     },
     async loadStories() {
-      const perPage = 25
-      const url = `/auth/spaces/${this.spaceId}/stories`
-      let page = 1
-
-      let res = await axios.get(url, this.getStoriesConfig(page))
-      const total = res.data.total
-      const lastPage = Math.ceil(total / perPage)
-      let all = res.data.stories
-
-      if (total > 1000) {
-        this.errorMessage =
-          'You have more than 1000 content items with assigned workflow stages. Only the first 1000 will be loaded.'
-        this.$refs.toast.show()
-      }
-
-      while (page < lastPage && page <= 40) {
-        page++
-        res = await axios.get(url, this.getStoriesConfig(page))
-        all = [...all, ...res.data.stories]
-      }
-
-      this.hasUserError = false
-
-      return all
+      // get the space id from URL and use it in requests
+      return await axios
+        .get(`/auth/spaces/${this.spaceId}/stories`)
+        .then((res) => {
+          this.perPage = res.data.perPage
+          this.total = res.data.total
+          this.stories = res.data.stories
+        })
     },
     getUserInfo() {
       return axios
@@ -159,7 +162,7 @@ export default {
     clearErrors() {
       this.hasUserError = false
       this.hasStoriesError = false
-      this.hasWorkflowError = false
+      this.hasCookieError = false
     },
     getStoriesConfig(page) {
       const params = {

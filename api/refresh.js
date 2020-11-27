@@ -1,8 +1,9 @@
+/* eslint-disable camelcase */
 const Session = require('grant/lib/session')({
   secret: 'grant',
   store: require('../auth/store'),
 })
-const getTokenFromCode = require('../auth/util')
+const getTokenFromCode = require('../auth/util.js')
 
 export default async function (req, res) {
   req.cookies = [req.cookies]
@@ -10,22 +11,20 @@ export default async function (req, res) {
   const sessionEntry = await session.get()
 
   try {
-    const { code, space_id } = req.query
+    const currentRefreshToken = sessionEntry.refresh_token
     const { access_token, refresh_token } = await getTokenFromCode({
-      code,
+      refresh_token: currentRefreshToken,
       provider: 'storyblok',
-      grant_type: 'authorization_code',
+      grant_type: 'refresh_token',
     })
+
     const fullEntry = Object.assign({}, sessionEntry, {
-      space_id,
-      application_code: code,
       access_token,
       refresh_token,
     })
-
     await session.set(fullEntry)
 
-    res.redirect(`/?space_id=${space_id}`)
+    res.redirect(`/?space_id=${req.query.space_id}`)
   } catch (e) {
     const statusCode = e.response ? e.response.status : 500
     res.status(statusCode).json({ error: e.message })

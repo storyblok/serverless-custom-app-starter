@@ -45,14 +45,14 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    [
+    /* [ // not needed for serverless, only on localhost
       '@storyblok/nuxt-auth',
       {
-        id: process.env.CONFIDENTIAL_CLIENT_ID,
-        secret: process.env.CONFIDENTIAL_CLIENT_SECRET,
-        redirect_uri: process.env.CONFIDENTIAL_CLIENT_REDIRECT_URI,
+        id: process.env.STORYBLOK_CLIENT_ID,
+        secret: process.env.STORYBLOK_CLIENT_SECRET,
+        redirect_uri: process.env.STORYBLOK_CLIENT_REDIRECT_URI,
       },
-    ],
+    ], */
   ],
   /*
    ** Axios module configuration

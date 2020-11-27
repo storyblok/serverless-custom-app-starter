@@ -18,5 +18,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     'vue/comment-directive': 'warn',
+    camelcase: 'warn',
   },
 }
