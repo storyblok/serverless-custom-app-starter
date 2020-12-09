@@ -47,7 +47,7 @@ SUPABASE_PUBLIC_KEY=eyJ...Uk
 
 ### Deploy
 
-This app is like any other Nuxt app, so, the deploy is the same ([check the Nuxt documentation about this](https://nuxtjs.org/guide/commands#production-deployment)). Since the tutorial makes use of sererless functions on Vercel, we recommend deloying it to [Vercel](https://vercel.com/) with the following command:
+This app is like any other Nuxt app, so, the deploy is the same ([check the Nuxt documentation about this](https://nuxtjs.org/guide/commands#production-deployment)). Since the tutorial makes use of serverless functions on Vercel, we recommend deploying it to [Vercel](https://vercel.com/) with the following command:
 
 ```
 $ npm run build
