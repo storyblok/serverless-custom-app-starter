@@ -55,7 +55,7 @@ $ npm run generate
 $ vercel
 ```
 
-The functions in the `api` folder will automatically be deployed as serverless functions. Make sure to set all environtment variables in the `.env-example` in Vercel as well. See [their docs](https://vercel.com/knowledge/how-to-add-vercel-environment-variables) on how to do this.
+The functions in the `api` folder will automatically be deployed as serverless functions. Make sure to set all environment variables in the `.env-example` in Vercel as well. See [their docs](https://vercel.com/knowledge/how-to-add-vercel-environment-variables) on how to do this.
 
 ---
 
