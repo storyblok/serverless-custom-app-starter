@@ -1,14 +1,18 @@
 <p align="center">
-  <h1 align="center">Storyblok Custom App</h1>
+  <h1 align="center">Serverless Custom App in Storyblok </h1>
 </p>
 
 ![App preview image](./screenshot.png)
 
 > Example App to start with in Storyblok.
 
-Based on the [Workflow App](https://github.com/storyblok/storyblok-workflow-app)
+Based on our [Workflow App](https://github.com/storyblok/storyblok-workflow-app)
 
-## Development
+
+## Tutorial
+
+This repository is the end result of following our [How to Build a Serverless Custom App with Storyblok, Grant and Supabase](https://www.storyblok.com/tp/serverless-custom-app-oauth-2) tutorial. 
+
 
 Firstly, to create an app on Storyblok, you need to enter to the [our partner program](https://www.storyblok.com/partners).
 
@@ -16,53 +20,42 @@ Firstly, to create an app on Storyblok, you need to enter to the [our partner pr
 
 ``` bash
 # clone this repository
-$ git clone https://github.com/storyblok/storyblok-workflow-app.git
+$ git clone https://github.com/storyblok/serverless-custom-app-starter.git
 
 # Enter the directory
-$ cd storyblok-workflow-app
+$ cd serverless-custom-app-starter
 
 # install dependencies
-$ yarn install # npm install
+$ npm install
 ```
 
-### Configure the the Oauth2 module
+### Environment Variables
 
-To run the project in development, firstly, you need to configure our `nuxt-auth` module ([check out the documentation](https://github.com/storyblok/nuxt-auth)) with your oauth credentials (these credentials are available in the app settings area of Storyblok).
+To run the project you will need to set up a few serverless functions on [vercel](https://vercel.com/).
 
 Rename the file `.env-example` to `.env` and fill out the variables.
 
 ~~~text
-CONFIDENTIAL_CLIENT_ID="Id from Storyblok App"
-CONFIDENTIAL_CLIENT_SECRET="Secret from Storyblok App"
-CONFIDENTIAL_CLIENT_REDIRECT_URI=https://YOUR_ID.ngrok.io/auth/callback
+STORYBLOK_CLIENT_ID=Q...==
+STORYBLOK_CLIENT_SECRET=MJ...Q==
+STORYBLOK_CLIENT_REDIRECT_URI=https://vercel-dashboard.lisilinhart.vercel.app/connect/storyblok/callback
+SUPABASE_DB_URL=https://ig...di.supabase.co
+SUPABASE_PUBLIC_KEY=eyJ...Uk
 ~~~
 
-### Setup an SSL tunnel
 
-We recommend you to use [ngrok](https://ngrok.com/) to create a tunel to your development environment. In you terminal, execute:
-
-```bash
-$ ngrok http 3000 # the 3000 port is the Nuxt default
-```
-
-Use the urls you get from ngrok to fill out the following fields in the app settings area in Storyblok:
-
-* `Url to your app` field: `https://YOUR_ID.ngrok.io/auth/connect/storyblok`
-* `Oauth2 callback url` field: `https://YOUR_ID.ngrok.io/auth/callback` (this URL must be include in `redirect_uri` property in `nuxt-auth` module)
-
-### Check the App in Development
-
-After all, start the Nuxt dev server:
-
-```bash
-$ yarn dev # npm run dev
-```
-
-Now click the "Open" button in the app settings area of your app in Storyblok to install the app on a space.
 
 ### Deploy
 
-This app is like any other Nuxt app, so, the deploy is the same ([check the Nuxt documentation about this](https://nuxtjs.org/guide/commands#production-deployment)). **The only thing that you must be concern, is the URLs configurations**.
+This app is like any other Nuxt app, so, the deploy is the same ([check the Nuxt documentation about this](https://nuxtjs.org/guide/commands#production-deployment)). Since the tutorial makes use of sererless functions on Vercel, we recommend deloying it to [Vercel](https://vercel.com/) with the following command:
+
+```
+$ npm run build
+$ npm run generate
+$ vercel
+```
+
+The functions in the `api` folder will automatically be deployed as serverless functions. Make sure to set all environtment variables in the `.env-example` in Vercel as well. See [their docs](https://vercel.com/knowledge/how-to-add-vercel-environment-variables) on how to do this.
 
 ---
 
