@@ -1,8 +1,0 @@
-{
-    "rewrites": [
-        { "source": "/refresh", "destination": "/api/refresh" },
-        { "source": "/connect/storyblok", "destination": "/api/grant" },
-        { "source": "/connect/storyblok/callback", "destination": "/api/callback" },
-        { "source": "/auth/(.*)", "destination": "/api/storyblok" }
-    ]
-}

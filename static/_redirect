@@ -1,0 +1,5 @@
+/connect/*          /.netlify/functions/grant            200
+/sb-callback/*      /.netlify/functions/sb-callback      200
+/auth/*             /.netlify/functions/storyblok        200
+/netlify-callback/* /.netlify/functions/netlify-callback 200
+/netlify/*          /.netlify/functions/netlify          200

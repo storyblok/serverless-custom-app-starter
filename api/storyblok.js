@@ -1,38 +1,64 @@
 const StoryblokClient = require('storyblok-js-client/dist/es5/index.cjs')
 const Session = require('grant/lib/session')({
-  secret: 'grant',
-  store: require('../auth/store'),
+  name: 'my-cookie-name',
+  secret: 'my-cookie-secret-123',
+  store: require('./utils/store'),
 })
 
-function getEndpointUrl(url, session) {
-  let endpointUrl = url.replace('/auth/', '').replace('null', session.space_id)
+// this functions allows to route specific requests to specific endpoints
+function getEndpointUrl(url) {
+  let endpointUrl = url.replace('/auth/', '')
 
-  if (url.includes('user')) endpointUrl = 'oauth/user_info'
+  if (url.includes('user')) {
+    endpointUrl = 'oauth/user_info'
+  }
 
   return endpointUrl
 }
 
-export default async (req, res) => {
-  req.cookies = [req.cookies]
-  // get the current session
-  const session = Session(req)
+exports.handler = async (event) => {
+  const session = Session(event)
   const sessionEntry = await session.get()
-  const url = getEndpointUrl(req.url, sessionEntry)
+  const url = getEndpointUrl(event.path)
 
-  if (sessionEntry && typeof sessionEntry.access_token !== 'undefined') {
-    // get storyblok request
+  // we can only make requests to Storyblok if a session and an access token is present
+  if (
+    sessionEntry &&
+    sessionEntry.storyblok &&
+    sessionEntry.storyblok.access_token
+  ) {
+    // get storyblok client
     const sbClient = new StoryblokClient({
-      oauthToken: `Bearer ${sessionEntry.access_token}`,
+      oauthToken: `Bearer ${sessionEntry.storyblok.access_token}`,
     })
 
+    // load the data from the given URL on the request
     try {
-      const { data, perPage, total } = await sbClient.get(url)
-      res.json({ perPage, total, ...data })
+      const response = await sbClient.get(url)
+      return {
+        statusCode: response.status,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(response.data, null, 2),
+      }
     } catch (e) {
       const statusCode = e.response ? e.response.status : 500
-      res.status(statusCode).json({ error: e.message })
+      return {
+        statusCode,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({ error: e.message }, null, 2),
+      }
     }
   } else {
-    res.json({ error: 'No session found' })
+    return {
+      statusCode: 500,
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ error: 'No session found' }, null, 2),
+    }
   }
 }
