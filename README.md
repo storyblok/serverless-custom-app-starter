@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Serverless Custom App in Storyblok </h1>
+  <h1 align="center">Storyblok Serverless Custom App with Netlify  </h1>
 </p>
 
 ![App preview image](./screenshot.png)
@@ -31,7 +31,7 @@ $ npm install
 
 ### Environment Variables
 
-To run the project you will need to set up a few serverless functions on [vercel](https://vercel.com/).
+To run the project you will need to set up a few serverless functions on [netlify](https://netlify.app/).
 
 Rename the file `.env-example` to `.env` and fill out the variables.
 
@@ -55,7 +55,7 @@ $ npm run generate
 $ vercel
 ```
 
-The functions in the `api` folder will automatically be deployed as serverless functions. Make sure to set all environment variables in the `.env-example` in Vercel as well. See [their docs](https://vercel.com/knowledge/how-to-add-vercel-environment-variables) on how to do this.
+The functions in the `api` folder will automatically be deployed as serverless functions. Make sure to set all environment variables in the `.env-example` in Netlify as well. 
 
 ---
 
