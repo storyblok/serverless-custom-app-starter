@@ -1,3 +1,18 @@
+> **⚠️ DEPRECATION NOTICE ⚠️**
+>
+> This template repository (`serverless-custom-app-starter`) is **deprecated** and no longer actively maintained or recommended.
+>
+> Please refer to the new central repository, **`storyblok/space-tool-plugins`**, for examples, boilerplates, and the standard approach to developing Space Plugins (or Tool Plugins) for Storyblok. This new location provides updated resources and represents the standard going forward.
+>
+> *   **➡️ New Space Plugin projects should use the resources found in `storyblok/space-tool-plugins`.**
+> *   **➡️ Existing projects based on this template should refer to `storyblok/space-tool-plugins` for updates and best practices.**
+>
+> Find the new resources here:
+> *   **GitHub:** [https://github.com/storyblok/space-tool-plugins](https://github.com/storyblok/space-tool-plugins)
+> *   **Space plugins documentation:** [https://www.storyblok.com/docs/plugins/space-plugins](https://www.storyblok.com/docs/plugins/space-plugins/)
+>
+> Thank you for your understanding.
+
 <p align="center">
   <h1 align="center">Serverless Custom App in Storyblok </h1>
 </p>
